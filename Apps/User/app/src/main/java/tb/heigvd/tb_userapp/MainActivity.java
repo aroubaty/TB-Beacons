@@ -1,5 +1,12 @@
 package tb.heigvd.tb_userapp;
 
+import android.graphics.Bitmap;
+import android.graphics.BitmapFactory;
+import android.graphics.Canvas;
+import android.graphics.Color;
+import android.graphics.Paint;
+import android.graphics.drawable.BitmapDrawable;
+import android.graphics.drawable.Drawable;
 import android.os.Bundle;
 import android.support.design.widget.FloatingActionButton;
 import android.support.design.widget.Snackbar;
@@ -15,6 +22,7 @@ import android.view.MenuItem;
 import android.widget.ImageView;
 
 import tb.heigvd.tb_userapp.map.Map;
+import uk.co.senab.photoview.PhotoViewAttacher;
 
 public class MainActivity extends AppCompatActivity
         implements NavigationView.OnNavigationItemSelectedListener {
@@ -53,7 +61,32 @@ public class MainActivity extends AppCompatActivity
 
 
         //Map creating
-        map = new Map((ImageView) findViewById(R.id.imageMap), getResources());
+        //map = new Map((ImageView) findViewById(R.id.imageMap), getResources());
+
+        ImageView mImageView = (ImageView) findViewById(R.id.imageMap);
+
+        //On récupère l'image de la mémoire
+        Bitmap mapNonMutable = BitmapFactory.decodeResource(getResources(),
+                R.drawable.map);
+
+        //on fait une copie que l'on peu modifer
+        Bitmap mapMuntable = mapNonMutable.copy(Bitmap.Config.ARGB_8888, true);
+        Canvas c = new Canvas(mapMuntable);
+        Paint p = new Paint(Paint.ANTI_ALIAS_FLAG);
+        p.setColor(Color.WHITE);
+        p.setStrokeWidth(10);
+
+        //on dessine une ligne
+        c.drawLine(0, 0, 1000, 1000, p);
+
+        //on crée une image
+        Drawable d = new BitmapDrawable(getResources(), mapMuntable);
+
+        //on l'insère dans la vue
+        mImageView.setImageDrawable(d);
+
+        //on active le zoom
+        PhotoViewAttacher mAttacher = new PhotoViewAttacher(mImageView);
 
     }
 
