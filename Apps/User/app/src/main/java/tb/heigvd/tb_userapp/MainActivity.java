@@ -21,6 +21,8 @@ import android.view.Menu;
 import android.view.MenuItem;
 import android.widget.ImageView;
 
+import tb.heigvd.tb_userapp.entity.Stand;
+import tb.heigvd.tb_userapp.entity.StandManager;
 import tb.heigvd.tb_userapp.map.Map;
 import uk.co.senab.photoview.PhotoViewAttacher;
 
@@ -28,6 +30,7 @@ public class MainActivity extends AppCompatActivity
         implements NavigationView.OnNavigationItemSelectedListener {
 
     private Map map;
+    public StandManager standManager;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -54,39 +57,15 @@ public class MainActivity extends AppCompatActivity
         NavigationView navigationView = (NavigationView) findViewById(R.id.nav_view);
         navigationView.setNavigationItemSelectedListener(this);
 
-
-        //test addd
-        Menu menu = navigationView.getMenu();
-        menu.add("ajout dynamic");
-
-
         //Map creating
-        //map = new Map((ImageView) findViewById(R.id.imageMap), getResources());
+        map = new Map((ImageView) findViewById(R.id.imageMap), this);
 
-        ImageView mImageView = (ImageView) findViewById(R.id.imageMap);
+        //menu
+        Menu menu = navigationView.getMenu();
 
-        //On récupère l'image de la mémoire
-        Bitmap mapNonMutable = BitmapFactory.decodeResource(getResources(),
-                R.drawable.map);
+        for(Stand s : map.standManager.getStands())
+            menu.add(s.name);
 
-        //on fait une copie que l'on peu modifer
-        Bitmap mapMuntable = mapNonMutable.copy(Bitmap.Config.ARGB_8888, true);
-        Canvas c = new Canvas(mapMuntable);
-        Paint p = new Paint(Paint.ANTI_ALIAS_FLAG);
-        p.setColor(Color.WHITE);
-        p.setStrokeWidth(10);
-
-        //on dessine une ligne
-        c.drawLine(0, 0, 1000, 1000, p);
-
-        //on crée une image
-        Drawable d = new BitmapDrawable(getResources(), mapMuntable);
-
-        //on l'insère dans la vue
-        mImageView.setImageDrawable(d);
-
-        //on active le zoom
-        PhotoViewAttacher mAttacher = new PhotoViewAttacher(mImageView);
 
     }
 
@@ -125,25 +104,7 @@ public class MainActivity extends AppCompatActivity
     @SuppressWarnings("StatementWithEmptyBody")
     @Override
     public boolean onNavigationItemSelected(MenuItem item) {
-        // Handle navigation view item clicks here.
-        int id = item.getItemId();
-
-        /*Snackbar.make(findViewById(R.id.frameMap), "click => " + item.getTitle(), Snackbar.LENGTH_LONG)
-                .setAction("Action", null).show();*/
-
-        /*if (id == R.id.nav_camera) {
-            // Handle the camera action
-        } else if (id == R.id.nav_gallery) {
-
-        } else if (id == R.id.nav_slideshow) {
-
-        } else if (id == R.id.nav_manage) {
-
-        } else if (id == R.id.nav_share) {
-
-        } else if (id == R.id.nav_send) {
-
-        }*/
+        map.update(item.getTitle().toString());
 
         DrawerLayout drawer = (DrawerLayout) findViewById(R.id.drawer_layout);
         drawer.closeDrawer(GravityCompat.START);
