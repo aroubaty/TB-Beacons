@@ -23,6 +23,7 @@ import android.widget.ImageView;
 
 import tb.heigvd.tb_userapp.entity.Stand;
 import tb.heigvd.tb_userapp.entity.StandManager;
+import tb.heigvd.tb_userapp.map.HackyDrawerLayout;
 import tb.heigvd.tb_userapp.map.Map;
 import uk.co.senab.photoview.PhotoViewAttacher;
 
@@ -104,7 +105,12 @@ public class MainActivity extends AppCompatActivity
     @SuppressWarnings("StatementWithEmptyBody")
     @Override
     public boolean onNavigationItemSelected(MenuItem item) {
-        map.update(item.getTitle().toString());
+
+        if(item.getItemId() != R.id.nav_camera && item.getItemId() != R.id.nav_gallery)
+            map.update(item.getTitle().toString());
+        else
+            Snackbar.make((HackyDrawerLayout)findViewById(R.id.drawer_layout), "Not implement yet!", Snackbar.LENGTH_LONG)
+                    .setAction("Action", null).show();
 
         DrawerLayout drawer = (DrawerLayout) findViewById(R.id.drawer_layout);
         drawer.closeDrawer(GravityCompat.START);

@@ -41,8 +41,7 @@ public class Map {
 
         //On récupère l'image de la mémoire
         mapNonMutable = BitmapFactory.decodeResource(resources,
-                R.drawable.map);
-
+                AppConfig.MAP);
 
         standManager = new StandManager(mapNonMutable.getWidth(), mapNonMutable.getHeight());
         update();
@@ -57,15 +56,18 @@ public class Map {
         Bitmap mapMuntable = mapNonMutable.copy(Bitmap.Config.ARGB_8888, true);
         Canvas c = new Canvas(mapMuntable);
         Paint p = new Paint(Paint.ANTI_ALIAS_FLAG);
-        p.setColor(Color.WHITE);
+
+        //on dessine la position
+        p.setColor(AppConfig.COLOR_POSITION);
+        c.drawCircle(1740, 510, AppConfig.CIRCLE_POSITION_RADIUS, p);
 
         //on dessine les différents éléments (stand, etc..)
         for(Stand s : standManager.getStands()){
 
             if(s.name.equals(destination))
-                p.setColor(Color.RED);
+                p.setColor(AppConfig.COLOR_DESTINATION);
             else
-                p.setColor(Color.WHITE);
+                p.setColor(AppConfig.COLOR_DEFAULT);
 
             c.drawCircle(s.posX, s.posY, AppConfig.CIRCLE_STAND_RADIUS, p);
         }

@@ -40,9 +40,9 @@ public class StandManager {
 
     private void loadTestData(){
         stands = new Stand[]{
-                new Stand("Toilette", 2000, 1500),
-                new Stand("Restaurant Chinois", 200, 600),
-                new Stand("HEIG place", 1000, 300)
+                new Stand("Chambre", 1740, 510),
+                new Stand("Salon", 129, 2070),
+                new Stand("Bureau", 2232, 1536)
         };
     }
 
