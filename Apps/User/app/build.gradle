@@ -17,6 +17,11 @@ android {
             proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.pro'
         }
     }
+
+    //Error duplicate
+    packagingOptions {
+        exclude 'main/AndroidManifest.xml'
+    }
 }
 
 dependencies {
@@ -25,4 +30,6 @@ dependencies {
     compile 'com.android.support:appcompat-v7:23.1.1'
     compile 'com.android.support:design:23.1.1'
     compile 'com.commit451:PhotoView:1.2.4'
+    //Kontakt Line
+    compile 'com.kontakt.sdk.android:kontakt.io-android-sdk:2.0.0'
 }

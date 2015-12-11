@@ -1,37 +1,34 @@
 package tb.heigvd.tb_userapp;
 
-import android.graphics.Bitmap;
-import android.graphics.BitmapFactory;
-import android.graphics.Canvas;
-import android.graphics.Color;
-import android.graphics.Paint;
-import android.graphics.drawable.BitmapDrawable;
-import android.graphics.drawable.Drawable;
+import android.content.Intent;
+import android.content.pm.ApplicationInfo;
+import android.content.pm.PackageManager;
 import android.os.Bundle;
-import android.support.design.widget.FloatingActionButton;
 import android.support.design.widget.Snackbar;
-import android.view.View;
 import android.support.design.widget.NavigationView;
 import android.support.v4.view.GravityCompat;
 import android.support.v4.widget.DrawerLayout;
 import android.support.v7.app.ActionBarDrawerToggle;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
+import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.widget.ImageView;
 
+import com.kontakt.sdk.android.common.KontaktSDK;
+import com.kontakt.sdk.android.common.log.LogLevel;
+
+import tb.heigvd.tb_userapp.bluetooth.BluetoothManager;
 import tb.heigvd.tb_userapp.entity.Stand;
-import tb.heigvd.tb_userapp.entity.StandManager;
 import tb.heigvd.tb_userapp.map.HackyDrawerLayout;
 import tb.heigvd.tb_userapp.map.Map;
-import uk.co.senab.photoview.PhotoViewAttacher;
 
 public class MainActivity extends AppCompatActivity
-        implements NavigationView.OnNavigationItemSelectedListener {
+        implements NavigationView.OnNavigationItemSelectedListener  {
 
-    private Map map;
-    public StandManager standManager;
+    public Map map;
+    private BluetoothManager bluetoothManager;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -64,10 +61,11 @@ public class MainActivity extends AppCompatActivity
         //menu
         Menu menu = navigationView.getMenu();
 
-        for(Stand s : map.standManager.getStands())
+        for(Stand s : map.entityManager.getStands())
             menu.add(s.name);
 
-
+        //partie Bluetooth
+        bluetoothManager = new BluetoothManager(this);
     }
 
     @Override
@@ -115,5 +113,42 @@ public class MainActivity extends AppCompatActivity
         DrawerLayout drawer = (DrawerLayout) findViewById(R.id.drawer_layout);
         drawer.closeDrawer(GravityCompat.START);
         return true;
+    }
+
+    //Attache les events au BluetoothManger
+    @Override
+    protected void onStart() {
+        super.onStart();
+        bluetoothManager.onStart();
+    }
+
+    @Override
+    protected void onStop() {
+        super.onStop();
+        bluetoothManager.onStop();
+    }
+
+    @Override
+    protected void onPause() {
+        super.onPause();
+        bluetoothManager.onPause();
+    }
+
+    @Override
+    protected void onDestroy() {
+        super.onDestroy();
+        bluetoothManager.onDestroy();
+    }
+
+    @Override
+    public void onActivityResult(int requestCode, int resultCode, Intent data) {
+        bluetoothManager.onActivityResult(requestCode, resultCode, data);
+        super.onActivityResult(requestCode, resultCode, data);
+    }
+
+    @Override
+    protected void onResume() {
+        super.onResume();
+        bluetoothManager.onResume();
     }
 }

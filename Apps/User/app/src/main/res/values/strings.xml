@@ -5,4 +5,7 @@
     <string name="navigation_drawer_close">Close navigation drawer</string>
 
     <string name="action_settings">Options</string>
+
+    <!-- Kontakt API Key -->
+    <string name="kontakt_io_api_key">OpnGeYpUEbipRXnfgPvSrkErEdSJBJCv</string>
 </resources>
