@@ -19,9 +19,11 @@ function initPage(){
 }
 
 function updatePage(){
-    alert("Check update");
     //update marker
     httpGetAsync("/api?action=getStand", updateMarker);
+
+    //balise table
+    httpGetAsync("/api?action=getBalise", updateBaliseTable);
 }
 
 initPage();

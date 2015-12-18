@@ -40,21 +40,20 @@ public class MainServlet extends HttpServlet {
                 out.println("Data sample Load !");
                 break;
 
-            case "display":
-                Iterable<Entity> entities = Balise.getAllBalises();
-
-                for(Entity en : entities)
-                    out.println(en.getProperty("id"));
-
-                break;
-
             case "getStand":
                 response.setContentType("application/json; charset=utf-8");
                 response.setHeader("Cache-Control", "no-cache");
 
                 Iterable<Entity> standEntities = Util.listEntities(DBConfig.ENTITY_STAND, null, null);
                 out.println(Util.writeJSON(standEntities));
+                break;
 
+            case "getBalise":
+                response.setContentType("application/json; charset=utf-8");
+                response.setHeader("Cache-Control", "no-cache");
+
+                Iterable<Entity> baliseEntities = Util.listEntities(DBConfig.ENTITY_BALISE, null, null);
+                out.println(Util.writeJSON(baliseEntities));
                 break;
 
             default:

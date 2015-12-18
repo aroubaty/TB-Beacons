@@ -21,6 +21,9 @@ function initPage(){
 function updatePage(){
     //update marker
     httpGetAsync("/api?action=getStand", updateMarker);
+
+    //balise table
+    httpGetAsync("/api?action=getBalise", updateBaliseTable);
 }
 
 initPage();
