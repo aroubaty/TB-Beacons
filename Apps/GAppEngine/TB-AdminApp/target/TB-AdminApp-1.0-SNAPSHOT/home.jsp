@@ -22,7 +22,7 @@
     <!-- map lib http://build-failed.blogspot.ch/2012/11/zoomable-image-with-leaflet.html -->
     <link rel="stylesheet" href="/stylesheets/ol.css" type="text/css">
     <script src="/script/ol.js" type="text/javascript"></script>
-    <script src="/script/ol-debug.js" type="text/javascript"></script>
+    <!-- <script src="/script/ol-debug.js" type="text/javascript"></script> -->
 
 
 </head>
@@ -61,7 +61,7 @@
             <h1>Carte de l'exposition</h1>
 
             <div id="map"></div>
-            <script src="/script/mapScript.js" type="text/javascript"></script>
+
         </div>
 
     </div> <!-- /container -->
@@ -80,6 +80,9 @@
         </div>
     </div>
 
+    <!-- script part -->
+    <script src="/script/mapScript.js" type="text/javascript"></script>
+    <script src="/script/AsyncLoader.js" type="text/javascript"></script>
 
 </body>
 </html>
