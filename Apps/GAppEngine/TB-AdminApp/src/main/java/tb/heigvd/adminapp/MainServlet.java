@@ -1,6 +1,7 @@
 package tb.heigvd.adminapp;
 
 import com.google.appengine.api.datastore.Entity;
+import com.google.appengine.api.datastore.Key;
 import tb.heigvd.adminapp.entity.Balise;
 import tb.heigvd.adminapp.entity.DBConfig;
 import tb.heigvd.adminapp.entity.Stand;
@@ -18,11 +19,24 @@ import java.io.PrintWriter;
  */
 public class MainServlet extends HttpServlet {
     protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+        PrintWriter out = response.getWriter();
 
+        Key keyChambre = Stand.createOrUpdateOrder("Chambre", 580, 170, "Anthony", "idInfo", "idCarte");
+        Key keySalon = Stand.createOrUpdateOrder("Salon", 43, 690, "Anthony", "idInfo", "idCarte");
+        Key keyBureau = Stand.createOrUpdateOrder("Bureau", 744, 512, "Anthony", "idInfo", "idCarte");
+
+        Balise.createOrUpdateOrder("3G0h", keyChambre.getId() + "", 3);
+        Balise.createOrUpdateOrder("rDd9", keySalon.getId() + "", 3);
+
+        out.println("Data sample Load !");
     }
 
     protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-        PrintWriter out = response.getWriter();
+        response.setContentType("application/json; charset=utf-8");
+        response.setHeader("Cache-Control", "no-cache");
+
+
+        /*PrintWriter out = response.getWriter();
 
 
         String actionValue = request.getParameter("action");
@@ -59,7 +73,7 @@ public class MainServlet extends HttpServlet {
             default:
                 out.println("Hello, world");
                 break;
-        }
+        }*/
 
 
     }

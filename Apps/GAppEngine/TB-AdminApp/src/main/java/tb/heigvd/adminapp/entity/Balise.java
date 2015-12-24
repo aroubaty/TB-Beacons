@@ -14,25 +14,23 @@ import java.util.logging.Logger;
 public class Balise {
     private static final Logger logger = Logger.getLogger(Util.class.getCanonicalName());
 
-    public static void createOrUpdateOrder(
-            String id,
-            int posX,
-            int posY,
-            String standName,
+    public static Key createOrUpdateOrder(
+            String nom,
+            String standId,
             int puissance
     ) throws IOException {
+        Key keyLast = null;
         Transaction txn = Util.getDatastoreServiceInstance().beginTransaction();
         try {
 
             Entity balise = new Entity(DBConfig.ENTITY_BALISE);
-            balise.setProperty("id", id);
-            balise.setProperty("posX", posX);
-            balise.setProperty("posY", posY);
-            balise.setProperty("standName", "standName");
+            balise.setProperty("nom", nom);
+            balise.setProperty("standId", "standId");
             balise.setProperty("puissance", puissance);
-            Util.getDatastoreServiceInstance().put(balise);
+            keyLast = Util.getDatastoreServiceInstance().put(balise);
 
             txn.commit();
+
         } catch (Exception e) {
             logger.log(Level.WARNING, e.getMessage());
         } finally {
@@ -40,10 +38,16 @@ public class Balise {
                 txn.rollback();
             }
         }
+        return keyLast;
     }
 
     public static Iterable<Entity> getAllBalises() {
         Iterable<Entity> entities = Util.listEntities(DBConfig.ENTITY_BALISE, null, null);
+        return entities;
+    }
+
+    public static Iterable<Entity> getBalisesByStandId(String standId){
+        Iterable<Entity> entities = Util.listEntities(DBConfig.ENTITY_BALISE, "standID", standId);
         return entities;
     }
 }

@@ -76,7 +76,6 @@
             <tr>
                 <th>ID</th>
                 <th>Stand</th>
-                <th>Postion</th>
                 <th>Puissance</th>
             </tr>
             </thead>
@@ -96,7 +95,7 @@
 
 <!-- script part -->
 <script src="/script/mapScript.js" type="text/javascript"></script>
-<script src="/script/AsyncLoader.js" type="text/javascript"></script>
 <script src="/script/BaliseTable.js" type="text/javascript"></script>
+<script src="/script/AsyncLoader.js" type="text/javascript"></script>
 </body>
 </html>

@@ -13,17 +13,20 @@ function httpGetAsync(theUrl, callback) {
 
 function initPage(){
     //map
-    httpGetAsync("/api?action=getStand", mapInit);
+    httpGetAsync("/api/stand", mapInit);
 
-    setInterval(updatePage, 2000);
+    //balise table
+    httpGetAsync("/api/balise", updateBaliseTable);
+
+    setInterval(updatePage, 5000);
 }
 
 function updatePage(){
     //update marker
-    httpGetAsync("/api?action=getStand", updateMarker);
+    httpGetAsync("/api/stand", updateMarker);
 
     //balise table
-    httpGetAsync("/api?action=getBalise", updateBaliseTable);
+    httpGetAsync("/api/balise", updateBaliseTable);
 }
 
 initPage();

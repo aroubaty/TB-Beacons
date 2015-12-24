@@ -29,7 +29,7 @@ function mapInit(jsonStand) {
     for (tmp in jsonStand.data) {
         var iconFeature = new ol.Feature({
             geometry: new ol.geom.Point([jsonStand.data[tmp].posX, -1 * jsonStand.data[tmp].posY]),
-            name: jsonStand.data[tmp].standName,
+            name: jsonStand.data[tmp].nom,
             population: 1,
             rainfall: 1
         });
@@ -81,7 +81,7 @@ function updateMarker(jsonStand){
     for (tmp in jsonStand.data) {
         var iconFeature = new ol.Feature({
             geometry: new ol.geom.Point([jsonStand.data[tmp].posX, -1 * jsonStand.data[tmp].posY]),
-            name: jsonStand.data[tmp].standName,
+            name: jsonStand.data[tmp].nom,
             population: 1,
             rainfall: 1
         });
