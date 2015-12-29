@@ -26,7 +26,8 @@ public class MainServlet extends HttpServlet {
         Key keyBureau = Stand.createOrUpdateOrder("Bureau", 744, 512, "Anthony", "idInfo", "idCarte");
 
         Balise.createOrUpdateOrder("3G0h", keyChambre.getId() + "", 3);
-        Balise.createOrUpdateOrder("rDd9", keySalon.getId() + "", 3);
+        Balise.createOrUpdateOrder("rDd9", keySalon.getId() + "", 5);
+        Balise.createOrUpdateOrder("ABCD", "free", 7);
 
         out.println("Data sample Load !");
     }

@@ -3,27 +3,26 @@ package tb_installerapp.heigvd.tb.installerapp.model;
 import java.util.ArrayList;
 import java.util.List;
 
-import tb_installerapp.heigvd.tb.installerapp.AppConfig;
-import tb_installerapp.heigvd.tb.installerapp.utils.CustomHttpRequest;
-import tb_installerapp.heigvd.tb.installerapp.utils.GetAllStand;
 import tb_installerapp.heigvd.tb.installerapp.view.MyAdapter;
 
 /**
  * Created by anthony on 26.12.2015.
  */
-public class StandManager {
-    private static StandManager ourInstance = new StandManager();
+public class EntityManager {
+    private static EntityManager ourInstance = new EntityManager();
 
-    public static StandManager getInstance() {
+    public static EntityManager getInstance() {
         return ourInstance;
     }
 
 
     private List<Stand> standList;
+    private List<Balise> baliseList;
     private MyAdapter adapter;
 
-    private StandManager() {
+    private EntityManager() {
         standList = new ArrayList<>();
+        baliseList = new ArrayList<>();
     }
 
     public void setAdapter(MyAdapter adapter) {
@@ -33,5 +32,10 @@ public class StandManager {
     public void updateStandList(List<Stand> newList){
         standList = newList;
         adapter.replaceWith(standList);
+    }
+
+    public void updateBaliseList(List<Balise> newList){
+        baliseList = newList;
+        adapter.replaceWith(baliseList);
     }
 }

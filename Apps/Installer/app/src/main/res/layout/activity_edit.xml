@@ -1,6 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
-<!--<RelativeLayout -->
-<tb_installerapp.heigvd.tb.installerapp.map.HackyDrawerLayout
+
+<!-- <tb_installerapp.heigvd.tb.installerapp.map.HackyDrawerLayout -->
+<RelativeLayout
     xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
@@ -10,14 +11,6 @@
     android:paddingRight="@dimen/activity_horizontal_margin"
     android:paddingTop="@dimen/activity_vertical_margin"
     tools:context="tb_installerapp.heigvd.tb.installerapp.EditActivity">
-
-    <!--<TextView
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="New Text"
-        android:id="@+id/textView"
-        android:layout_alignParentTop="true"
-        android:layout_alignParentStart="true" />-->
 
 
     <ScrollView
@@ -37,7 +30,7 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:text="Nom du Stand"
-                android:textSize="50px"
+                android:textSize="20dp"
                 android:layout_alignParentLeft="true"
                 android:layout_alignParentTop="true"/>
 
@@ -46,7 +39,7 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:background="@android:drawable/editbox_background"
-                android:width="300px"
+                android:width="200dp"
                 android:layout_alignParentEnd="true" />
 
             <TextView
@@ -54,10 +47,10 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:text="Propriétaire"
-                android:textSize="50px"
+                android:textSize="20dp"
                 android:layout_alignParentLeft="true"
                 android:layout_below="@id/label_nom"
-                android:layout_marginTop="50px"/>
+                android:layout_marginTop="20dp"/>
 
             <EditText
                 android:id="@+id/pro"
@@ -66,22 +59,74 @@
                 android:background="@android:drawable/editbox_background"
                 android:layout_alignParentEnd="true"
                 android:layout_below="@id/nom"
-                android:layout_marginTop="50px"
+                android:layout_marginTop="10dp"
                 android:layout_alignStart="@+id/nom" />
 
 
             <FrameLayout
-                android:layout_width="match_parent"
-                android:layout_height="match_parent"
+                android:id="@+id/layout_map"
+                android:layout_width="wrap_content"
+                android:layout_height="300dp"
                 android:layout_below="@+id/label_pro"
+                android:layout_marginTop="20dp"
                 android:layout_alignParentLeft="true"
                 android:layout_alignParentStart="true">
 
                 <ImageView
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
+                    android:src="@drawable/plan_maison"
                     android:id="@+id/imageMap" />
             </FrameLayout>
+
+            <TextView
+                android:id="@+id/posX"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:background="@android:drawable/editbox_background"
+                android:layout_below="@id/layout_map"
+                android:layout_marginTop="10dp"
+                android:layout_alignStart="@+id/layout_map"
+                android:layout_alignEnd="@+id/label_nom" />
+
+            <TextView
+                android:id="@+id/posY"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:background="@android:drawable/editbox_background"
+                android:layout_alignParentEnd="true"
+                android:layout_below="@id/layout_map"
+                android:layout_marginTop="10dp"
+                android:layout_alignStart="@+id/pro" />
+
+            <TextView
+                android:id="@+id/label_balise"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Balises"
+                android:textSize="20dp"
+                android:layout_alignParentLeft="true"
+                android:layout_below="@id/posX"
+                android:layout_marginTop="10dp"/>
+
+            <Spinner
+                android:layout_width="200dp"
+                android:layout_height="wrap_content"
+                android:layout_alignParentEnd="true"
+                android:layout_below="@id/posY"
+                android:layout_marginTop="10dp"
+                android:src="@android:drawable/ic_menu_add"
+                android:id="@+id/add_balise" />
+
+            <ListView
+                android:layout_width="wrap_content"
+                android:layout_height="100dp"
+                android:layout_below="@+id/label_balise"
+                android:layout_marginTop="10dp"
+                android:layout_alignParentLeft="true"
+                android:layout_alignParentStart="true"
+                android:id="@+id/list_balise" />
+
 
         </RelativeLayout>
 
@@ -89,5 +134,5 @@
 
     </ScrollView>
 
-</tb_installerapp.heigvd.tb.installerapp.map.HackyDrawerLayout>
-<!-- </RelativeLayout>-->
+<!-- </tb_installerapp.heigvd.tb.installerapp.map.HackyDrawerLayout>-->
+</RelativeLayout>

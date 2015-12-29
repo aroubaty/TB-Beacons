@@ -3,8 +3,6 @@ apply plugin: 'com.android.application'
 android {
     compileSdkVersion 23
     buildToolsVersion "23.0.1"
-    //network part
-    //useLibrary  'org.apache.http.legacy'
 
     defaultConfig {
         applicationId "tb_installerapp.heigvd.tb.installerapp"

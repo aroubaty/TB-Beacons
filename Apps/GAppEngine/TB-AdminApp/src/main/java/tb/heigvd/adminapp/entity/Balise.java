@@ -25,7 +25,7 @@ public class Balise {
 
             Entity balise = new Entity(DBConfig.ENTITY_BALISE);
             balise.setProperty("nom", nom);
-            balise.setProperty("standId", "standId");
+            balise.setProperty("standId", standId);
             balise.setProperty("puissance", puissance);
             keyLast = Util.getDatastoreServiceInstance().put(balise);
 
@@ -46,8 +46,13 @@ public class Balise {
         return entities;
     }
 
+    public static Iterable<Entity> getBalisesFree(){
+        Iterable<Entity> entities = Util.listEntities(DBConfig.ENTITY_BALISE, "standId", "free");
+        return entities;
+    }
+
     public static Iterable<Entity> getBalisesByStandId(String standId){
-        Iterable<Entity> entities = Util.listEntities(DBConfig.ENTITY_BALISE, "standID", standId);
+        Iterable<Entity> entities = Util.listEntities(DBConfig.ENTITY_BALISE, "standId", standId);
         return entities;
     }
 }

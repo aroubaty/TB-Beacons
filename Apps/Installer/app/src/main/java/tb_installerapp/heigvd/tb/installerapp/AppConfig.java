@@ -9,6 +9,7 @@ public class AppConfig {
     public static final String URL_ROOT = "http://heigvd-tb-beacons.appspot.com/api";
 
     public static final String URL_GET_ALL_STAND = URL_ROOT + "/stand";
+    public static final String URL_GET_ALL_BALISE = URL_ROOT + "/balise";
 
 
 

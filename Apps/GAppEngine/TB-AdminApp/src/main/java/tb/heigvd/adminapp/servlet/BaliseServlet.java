@@ -88,6 +88,11 @@ public class BaliseServlet extends MainServlet {
                     out.println(Util.writeJSON(baliseEntities));
                     return;
 
+                case "free":
+                    Iterable<Entity> baliseFreeEntities = Balise.getBalisesFree();
+                    out.println(Util.writeJSON(baliseFreeEntities));
+                    return;
+
                 default:
                     response.sendError(HttpServletResponse.SC_BAD_REQUEST);
                     break;

@@ -7,13 +7,14 @@ import org.json.JSONObject;
 import java.util.ArrayList;
 import java.util.List;
 
-import tb_installerapp.heigvd.tb.installerapp.model.Stand;
+import tb_installerapp.heigvd.tb.installerapp.model.Balise;
 import tb_installerapp.heigvd.tb.installerapp.model.EntityManager;
+import tb_installerapp.heigvd.tb.installerapp.model.Stand;
 
 /**
- * Created by anthony on 28.12.2015.
+ * Created by anthony on 29.12.2015.
  */
-public class GetAllStand extends CustomHttpRequest {
+public class GetAllBalise extends CustomHttpRequest {
 
     @Override
     protected String doInBackground(String... uri) {
@@ -24,7 +25,7 @@ public class GetAllStand extends CustomHttpRequest {
     protected void onPostExecute(String result) {
         super.onPostExecute(result);
 
-        List<Stand> outputList = new ArrayList<>();
+        List<Balise> outputList = new ArrayList<>();
         try {
             JSONObject jObject = new JSONObject(result);
 
@@ -32,22 +33,19 @@ public class GetAllStand extends CustomHttpRequest {
             for (int i = 0; i < jArray.length(); i++){
                 JSONObject row = jArray.getJSONObject(i);
 
-                String standKey = row.getString("id");
-                String StandName = row.getString("nom");
-                String proprietaire = row.getString("proprietaire");
-                int posX = row.getInt("posX");
-                int posY = row.getInt("posY");
+                String baliseKey = row.getString("id");
+                String baliseName = row.getString("nom");
+                String standId = row.getString("standId");
+                int puissance = row.getInt("puissance");
 
-                Stand newStand = new Stand(standKey, StandName, proprietaire, posX, posY);
-                outputList.add(newStand);
+                Balise newBalise = new Balise(baliseKey, baliseName, standId, puissance);
+                outputList.add(newBalise);
             }
-
-
 
         } catch (JSONException e) {
             e.printStackTrace();
         }
 
-        EntityManager.getInstance().updateStandList(outputList);
+        EntityManager.getInstance().updateBaliseList(outputList);
     }
 }

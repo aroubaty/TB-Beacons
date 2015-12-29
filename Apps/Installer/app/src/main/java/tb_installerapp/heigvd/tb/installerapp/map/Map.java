@@ -7,6 +7,7 @@ import android.graphics.BitmapFactory;
 import android.graphics.drawable.Drawable;
 import android.view.View;
 import android.widget.ImageView;
+import android.widget.TextView;
 import android.widget.Toast;
 
 
@@ -23,10 +24,17 @@ public class Map {
     private Resources resources;
     private Drawable map;
 
+    private TextView outX;
+    private TextView outY;
+    private double onePercentHeight;
+    private double onePercentWidth;
 
-    public Map(ImageView mapImage, Activity activity){
+
+    public Map(ImageView mapImage, Activity activity, TextView outX, TextView outY){
         mImageView = mapImage;
         this.resources = activity.getResources();
+        this.outX = outX;
+        this.outY = outY;
 
         //On récupère l'image de la mémoire
         map = resources.getDrawable(AppConfig.MAP);
@@ -38,6 +46,8 @@ public class Map {
         BitmapFactory.decodeResource(resources, AppConfig.MAP, options);
         int realWidth = options.outWidth;
         int realHeight = options.outHeight;
+        onePercentHeight = realHeight/100.0;
+        onePercentWidth = realWidth/100.0;
 
         mImageView.setImageDrawable(map);
         mAttacher = new PhotoViewAttacher(mImageView);
@@ -48,7 +58,11 @@ public class Map {
     private class MapTapListener implements PhotoViewAttacher.OnPhotoTapListener {
         @Override
         public void onPhotoTap(View view, float x, float y) {
+            int xPx = (int)(100 * x * onePercentWidth);
+            int yPx = (int)(100 * y * onePercentHeight);
 
+            outX.setText(xPx + "");
+            outY.setText(yPx + "");
         }
     }
 }
