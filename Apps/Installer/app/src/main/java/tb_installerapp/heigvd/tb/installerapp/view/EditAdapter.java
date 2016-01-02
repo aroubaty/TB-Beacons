@@ -2,10 +2,14 @@ package tb_installerapp.heigvd.tb.installerapp.view;
 
 import android.app.Activity;
 import android.graphics.Color;
+import android.support.design.widget.CoordinatorLayout;
+import android.support.design.widget.Snackbar;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageButton;
+import android.widget.RelativeLayout;
 import android.widget.TextView;
 
 import org.w3c.dom.Text;
@@ -13,10 +17,14 @@ import org.w3c.dom.Text;
 import java.util.ArrayList;
 import java.util.List;
 
+import tb_installerapp.heigvd.tb.installerapp.AppConfig;
+import tb_installerapp.heigvd.tb.installerapp.EditActivity;
 import tb_installerapp.heigvd.tb.installerapp.R;
 import tb_installerapp.heigvd.tb.installerapp.model.Balise;
 import tb_installerapp.heigvd.tb.installerapp.model.EntityManager;
 import tb_installerapp.heigvd.tb.installerapp.model.Stand;
+import tb_installerapp.heigvd.tb.installerapp.utils.CustomHttpRequest;
+import tb_installerapp.heigvd.tb.installerapp.utils.GetAllBalise;
 
 /**
  * Created by anthony on 29.12.2015.
@@ -63,7 +71,25 @@ public class EditAdapter extends MyAdapter{
         viewHolderEdit.delBtn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                //TODO delete balise
+                new CustomHttpRequest(){
+                    @Override
+                    protected void onPostExecute(String result) {
+                        super.onPostExecute(result);
+                        Log.w("HTTPResult", result);
+
+                        Snackbar snackbar = Snackbar
+                                .make((RelativeLayout)mainActivity.findViewById(R.id.editRootLayout),
+                                        "Dissociation terminée",
+                                        Snackbar.LENGTH_LONG);
+
+                        snackbar.show();
+
+                        //actualise la liste
+                        EditActivity editActivity = (EditActivity)(mainActivity);
+                        new GetAllBalise().execute(AppConfig.URL_GET_ALL_BALISE + "/byStand/" + editActivity.stand.standKey, "GET");
+
+                    }
+                }.execute(AppConfig.URL_GET_ALL_BALISE + "/unlink/" + balise.baliseKey, "DELETE");
             }
         });
 

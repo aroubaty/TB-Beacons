@@ -2,6 +2,7 @@ package tb.heigvd.adminapp.entity;
 
 import com.google.appengine.api.datastore.Entity;
 import com.google.appengine.api.datastore.Key;
+import com.google.appengine.api.datastore.KeyFactory;
 import com.google.appengine.api.datastore.Transaction;
 
 import java.io.IOException;
@@ -39,6 +40,20 @@ public class Balise {
             }
         }
         return keyLast;
+    }
+
+    public static void linkBalise(String idBalise, String idStand){
+        Key key = KeyFactory.createKey(DBConfig.ENTITY_BALISE, Long.parseLong(idBalise));
+        Entity entity = Util.findEntity(key);
+        entity.setProperty("standId", idStand);
+        Util.persistEntity(entity);
+    }
+
+    public static void unlinkBalise(String idBalise){
+        Key key = KeyFactory.createKey(DBConfig.ENTITY_BALISE, Long.parseLong(idBalise));
+        Entity entity = Util.findEntity(key);
+        entity.setProperty("standId", "free");
+        Util.persistEntity(entity);
     }
 
     public static Iterable<Entity> getAllBalises() {

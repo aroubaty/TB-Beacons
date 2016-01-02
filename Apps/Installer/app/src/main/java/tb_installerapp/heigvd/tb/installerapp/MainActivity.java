@@ -36,6 +36,7 @@ public class MainActivity extends AppCompatActivity {
         ListView listView = (ListView) findViewById(R.id.listView);
         listView.setAdapter(new MainAdapter(this));
 
+        new GetAllStand().execute(AppConfig.URL_GET_ALL_STAND, "GET");
     }
 
     @Override
@@ -53,10 +54,10 @@ public class MainActivity extends AppCompatActivity {
         int id = item.getItemId();
 
         //noinspection SimplifiableIfStatement
-        if (id == R.id.action_settings) {
+        /*if (id == R.id.action_settings) {
 
             return true;
-        }
+        }*/
 
         if (id == R.id.refresh_stands) {
             new GetAllStand().execute(AppConfig.URL_GET_ALL_STAND, "GET");

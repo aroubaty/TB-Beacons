@@ -20,6 +20,7 @@ import javax.servlet.http.HttpServletResponse;
 import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.PrintWriter;
+import java.util.List;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
@@ -31,8 +32,39 @@ public class BaliseServlet extends MainServlet {
 
     /*
         /balise : crée une balise par rapport au JSON
+        /balise/link/{idBalise}/{idStand} : lie une balise à un stand
      */
     protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+        PrintWriter out = response.getWriter();
+
+        String pathInfo = request.getPathInfo();
+        if(pathInfo == null){
+            // on est sur /balise
+            createBalise(request, response);
+            return;
+        }
+        if(pathInfo.equals("/")){
+            // on est sur /balise/
+            createBalise(request, response);
+            return;
+        }else{
+            String[] pathParts = pathInfo.split("/");
+
+            switch(pathParts[1]){
+                case "link":
+                    Balise.linkBalise(pathParts[2], pathParts[3]);
+                    out.println("Link done!");
+                    return;
+
+                default:
+                    response.sendError(HttpServletResponse.SC_BAD_REQUEST);
+                    break;
+            }
+        }
+
+    }
+
+    private void createBalise(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException{
         PrintWriter out = response.getWriter();
 
         //on lit le "body" de la requête
@@ -60,6 +92,7 @@ public class BaliseServlet extends MainServlet {
     /*
         /balise : affiche tout
         /balise/byStand/{idStand} : affiche les balises du stand
+        /balise/free : retourne les balises libres
      */
     protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
         super.doGet(request, response);
@@ -102,18 +135,43 @@ public class BaliseServlet extends MainServlet {
 
     /*
         /balise/{idBalise} : supprime la balise avec l'ID
+        /balise/unlink/{idBalise} : délie la balise à un stand
      */
     protected void doDelete(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException{
         PrintWriter out = response.getWriter();
+
         String pathInfo = request.getPathInfo();
-
-        if(!pathInfo.equals("/")){
+        if(pathInfo == null){
+            // on est sur /balise
+            response.sendError(HttpServletResponse.SC_BAD_REQUEST);
+            return;
+        }
+        if(pathInfo.equals("/")){
+            // on est sur /balise/
+            response.sendError(HttpServletResponse.SC_BAD_REQUEST);
+            return;
+        }else{
             String[] pathParts = pathInfo.split("/");
-            Key key = KeyFactory.createKey(DBConfig.ENTITY_BALISE, Long.parseLong(pathParts[1]));
-            Util.deleteEntity(key);
 
-            out.println("delete done !");
-            return ;
+            switch(pathParts[1]){
+                case "unlink":
+                    Balise.unlinkBalise(pathParts[2]);
+                    out.println("Unlink done!");
+                    return;
+
+                default:
+                    Key key = KeyFactory.createKey(DBConfig.ENTITY_BALISE, Long.parseLong(pathParts[1]));
+
+                    //on libère les balises
+                    Iterable<Entity> baliseEntities = Balise.getBalisesByStandId(pathParts[1]);
+                    for(Entity e : baliseEntities)
+                        Balise.unlinkBalise(e.getKey().getId()+"");
+
+
+                    Util.deleteEntity(key);
+                    out.println("delete done !");
+                    break;
+            }
         }
 
 

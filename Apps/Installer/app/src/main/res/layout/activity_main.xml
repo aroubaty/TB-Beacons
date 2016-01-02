@@ -5,6 +5,7 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:fitsSystemWindows="true"
+    android:id="@+id/mainRootLayout"
     tools:context="tb_installerapp.heigvd.tb.installerapp.MainActivity">
 
     <android.support.design.widget.AppBarLayout

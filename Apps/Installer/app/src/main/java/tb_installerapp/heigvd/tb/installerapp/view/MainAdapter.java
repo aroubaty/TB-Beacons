@@ -3,6 +3,9 @@ package tb_installerapp.heigvd.tb.installerapp.view;
 import android.app.Activity;
 import android.content.Intent;
 import android.graphics.Color;
+import android.support.design.widget.CoordinatorLayout;
+import android.support.design.widget.Snackbar;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -10,10 +13,13 @@ import android.view.ViewGroup;
 import java.util.ArrayList;
 import java.util.List;
 
+import tb_installerapp.heigvd.tb.installerapp.AppConfig;
 import tb_installerapp.heigvd.tb.installerapp.EditActivity;
 import tb_installerapp.heigvd.tb.installerapp.R;
 import tb_installerapp.heigvd.tb.installerapp.model.EntityManager;
 import tb_installerapp.heigvd.tb.installerapp.model.Stand;
+import tb_installerapp.heigvd.tb.installerapp.utils.CustomHttpRequest;
+import tb_installerapp.heigvd.tb.installerapp.utils.GetAllStand;
 
 /**
  * Created by anthony on 29.12.2015.
@@ -70,7 +76,24 @@ public class MainAdapter extends MyAdapter {
         viewHolder.imageDelete.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                //todo delete stand
+                new CustomHttpRequest(){
+                    @Override
+                    protected void onPostExecute(String result) {
+                        super.onPostExecute(result);
+
+                        Log.w("HTTPResult", result);
+
+                        Snackbar snackbar = Snackbar
+                                .make((CoordinatorLayout)mainActivity.findViewById(R.id.mainRootLayout),
+                                        "Suppression terminée",
+                                        Snackbar.LENGTH_LONG);
+
+                        snackbar.show();
+
+                        //actualise la liste
+                        new GetAllStand().execute(AppConfig.URL_GET_ALL_STAND, "GET");
+                    }
+                }.execute(AppConfig.URL_GET_ALL_STAND + "/" + stand.standKey, "DELETE");
             }
         });
 
