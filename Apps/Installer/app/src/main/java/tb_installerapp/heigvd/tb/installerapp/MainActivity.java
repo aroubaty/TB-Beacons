@@ -10,11 +10,13 @@ import android.view.Menu;
 import android.view.MenuItem;
 import android.widget.ListView;
 
+import tb_installerapp.heigvd.tb.installerapp.model.EntityManager;
 import tb_installerapp.heigvd.tb.installerapp.utils.GetAllStand;
 import tb_installerapp.heigvd.tb.installerapp.view.MainAdapter;
 import tb_installerapp.heigvd.tb.installerapp.view.MyAdapter;
 
 public class MainActivity extends AppCompatActivity {
+    private MainAdapter mainAdapter;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -33,9 +35,17 @@ public class MainActivity extends AppCompatActivity {
             }
         });
 
+        mainAdapter = new MainAdapter(this);
         ListView listView = (ListView) findViewById(R.id.listView);
-        listView.setAdapter(new MainAdapter(this));
+        listView.setAdapter(mainAdapter);
 
+        new GetAllStand().execute(AppConfig.URL_GET_ALL_STAND, "GET");
+    }
+
+    @Override
+    protected void onRestart() {
+        super.onRestart();
+        EntityManager.getInstance().setAdapter(mainAdapter);
         new GetAllStand().execute(AppConfig.URL_GET_ALL_STAND, "GET");
     }
 

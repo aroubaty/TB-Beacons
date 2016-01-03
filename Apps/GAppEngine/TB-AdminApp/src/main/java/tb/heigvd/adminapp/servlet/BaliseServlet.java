@@ -81,11 +81,12 @@ public class BaliseServlet extends MainServlet {
         JsonElement jelement = new JsonParser().parse(sb.toString());
         JsonObject jobject = jelement.getAsJsonObject();
 
+        String keyJson = jobject.get("key").toString().replace("\"", "");
         String id = jobject.get("nom").toString().replace("\"", "");
         String standID = jobject.get("standId").toString().replace("\"", "");
         int puissance = Integer.parseInt(jobject.get("puissance").toString().replace("\"", ""));
 
-        String key = Balise.createOrUpdateOrder(id, standID, puissance).getId() + "";
+        String key = Balise.createOrUpdateOrder(keyJson, id, standID, puissance).getId() + "";
         out.println(key);
     }
 

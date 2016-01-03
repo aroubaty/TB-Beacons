@@ -20,6 +20,9 @@ import android.widget.RelativeLayout;
 import android.widget.Spinner;
 import android.widget.TextView;
 
+import org.json.JSONException;
+import org.json.JSONObject;
+
 import java.util.HashMap;
 
 import tb_installerapp.heigvd.tb.installerapp.map.Map;
@@ -41,6 +44,7 @@ public class EditActivity extends AppCompatActivity implements AdapterView.OnIte
     private ListView listBalise;
 
     public Stand stand;
+    private String mode;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -68,7 +72,7 @@ public class EditActivity extends AppCompatActivity implements AdapterView.OnIte
         saveBtn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                //todo save button
+                saveStand();
             }
         });
 
@@ -79,7 +83,9 @@ public class EditActivity extends AppCompatActivity implements AdapterView.OnIte
                 finish();
             }
         });
+        ///////////////////////////////////
 
+        //link with ui
         nom = (EditText) findViewById(R.id.nom);
         pro = (EditText) findViewById(R.id.pro);
         posX = (TextView) findViewById(R.id.posX);
@@ -87,8 +93,18 @@ public class EditActivity extends AppCompatActivity implements AdapterView.OnIte
         addBalise = (Spinner) findViewById(R.id.add_balise);
         listBalise = (ListView) findViewById(R.id.list_balise);
 
+        //initialize variable
+        Map map = new Map((ImageView)findViewById(R.id.imageMap), this, posX, posY);
+        posIdMap = new HashMap<>();
+        spinnerAdapter = new ArrayAdapter<String>(this, android.R.layout.simple_spinner_item, android.R.id.text1);
+        spinnerAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
+        addBalise.setAdapter(spinnerAdapter);
+        addBalise.setOnItemSelectedListener(this);
+
         Intent intent = getIntent();
-        String mode = intent.getExtras().getString("mode");
+        mode = intent.getExtras().getString("mode");
+
+        listBalise.setAdapter(new EditAdapter(this));
 
         //Initialise data
         if(mode.equals("edit")){
@@ -97,30 +113,65 @@ public class EditActivity extends AppCompatActivity implements AdapterView.OnIte
             pro.setText(stand.proprietaire);
             posX.setText(stand.posX + "");
             posY.setText(stand.posY + "");
+
+            //on liste les balises liées au stand
+            new GetAllBalise().execute(AppConfig.URL_GET_ALL_BALISE + "/byStand/" + stand.standKey, "GET");
+
+            //initialisation du spinner
+            new GetAllFreeBaliseSpinner(spinnerAdapter, posIdMap).execute(AppConfig.URL_GET_ALL_BALISE + "/free", "GET");
+        }else{
+            //new mode
+            spinnerAdapter.add("Recharger stand ...");
+            spinnerAdapter.notifyDataSetChanged();
         }
 
-        Map map = new Map((ImageView)findViewById(R.id.imageMap), this, posX, posY);
-        listBalise.setAdapter(new EditAdapter(this));
 
-        //on liste les balises liées au stand
-        new GetAllBalise().execute(AppConfig.URL_GET_ALL_BALISE + "/byStand/" + stand.standKey, "GET");
-
-        //initialisation du spinner
-        posIdMap = new HashMap<>();
-        spinnerAdapter = new ArrayAdapter<String>(this, android.R.layout.simple_spinner_item, android.R.id.text1);
-        spinnerAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
-        addBalise.setAdapter(spinnerAdapter);
-        addBalise.setOnItemSelectedListener(this);
-        new GetAllFreeBaliseSpinner(spinnerAdapter, posIdMap).execute(AppConfig.URL_GET_ALL_BALISE + "/free", "GET");
 
         //cache le clavier du début
         getWindow().setSoftInputMode(WindowManager.LayoutParams.SOFT_INPUT_STATE_HIDDEN);
     }
 
+    private void saveStand(){
+        try {
+            //création du Json pour le stand
+            JSONObject root = new JSONObject();
+
+            if(stand == null)
+                root.put("key", "noKey");
+            else
+                root.put("key", stand.standKey);
+
+            root.put("nom", nom.getText().toString());
+            root.put("proprietaire", pro.getText().toString());
+            root.put("posX", posX.getText().toString());
+            root.put("posY", posY.getText().toString());
+            root.put("idInformation", "NotDoneYet");
+            root.put("idCarte", "NotDoneYet");
+
+            Log.w("JsonPost", root.toString());
+            new CustomHttpRequest(){
+                @Override
+                protected void onPostExecute(String result) {
+                    super.onPostExecute(result);
+                    Log.w("HTTPResult", result);
+
+                    finish();
+                }
+            }.execute(AppConfig.URL_GET_ALL_STAND, "POST", root.toString());
+
+
+        } catch (JSONException e) {
+            e.printStackTrace();
+        }
+
+
+    }
+
+
     @Override
     public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
 
-        if(position != 0) {
+        if(position != 0 && mode.equals("edit")) {
             //on lie la nouvelle balise
             new CustomHttpRequest(){
                 @Override

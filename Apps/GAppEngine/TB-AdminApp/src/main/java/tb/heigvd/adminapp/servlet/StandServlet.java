@@ -47,6 +47,7 @@ public class StandServlet extends MainServlet {
         JsonElement jelement = new JsonParser().parse(sb.toString());
         JsonObject jobject = jelement.getAsJsonObject();
 
+        String keyJson = jobject.get("key").toString().replace("\"", "");
         String nom = jobject.get("nom").toString().replace("\"", "");
         int posX = Integer.parseInt(jobject.get("posX").toString().replace("\"", ""));
         int posY = Integer.parseInt(jobject.get("posY").toString().replace("\"", ""));
@@ -54,7 +55,7 @@ public class StandServlet extends MainServlet {
         String idInformation = jobject.get("idInformation").toString().replace("\"", "");
         String idCarte = jobject.get("idCarte").toString().replace("\"", "");
 
-        String key = Stand.createOrUpdateOrder(nom, posX, posY, proprietaire, idInformation, idCarte).getId() + "";
+        String key = Stand.createOrUpdateOrder(keyJson, nom, posX, posY, proprietaire, idInformation, idCarte).getId() + "";
         out.println(key);
     }
 
@@ -76,6 +77,14 @@ public class StandServlet extends MainServlet {
         if(!pathInfo.equals("/")){
             String[] pathParts = pathInfo.split("/");
             Key key = KeyFactory.createKey(DBConfig.ENTITY_STAND, Long.parseLong(pathParts[1]));
+
+            //libère les balises liés
+            Iterable<Entity> allBalise = Util.listEntities(DBConfig.ENTITY_BALISE, "standId", pathParts[1]);
+            for(Entity e : allBalise){
+                e.setProperty("standId", "free");
+                Util.persistEntity(e);
+            }
+
             Util.deleteEntity(key);
 
             out.println("delete done !");

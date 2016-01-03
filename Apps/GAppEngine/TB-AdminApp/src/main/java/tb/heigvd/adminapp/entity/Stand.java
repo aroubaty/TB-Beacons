@@ -2,6 +2,7 @@ package tb.heigvd.adminapp.entity;
 
 import com.google.appengine.api.datastore.Entity;
 import com.google.appengine.api.datastore.Key;
+import com.google.appengine.api.datastore.KeyFactory;
 import com.google.appengine.api.datastore.Transaction;
 
 import java.io.IOException;
@@ -15,6 +16,7 @@ public class Stand {
     private static final Logger logger = Logger.getLogger(Util.class.getCanonicalName());
 
     public static Key createOrUpdateOrder(
+            String key,
             String nom,
             int posX,
             int posY,
@@ -25,15 +27,22 @@ public class Stand {
         Key keyLast = null;
         Transaction txn = Util.getDatastoreServiceInstance().beginTransaction();
         try {
+            Entity stand;
 
-            Entity balise = new Entity(DBConfig.ENTITY_STAND);
-            balise.setProperty("nom", nom);
-            balise.setProperty("posX", posX);
-            balise.setProperty("posY", posY);
-            balise.setProperty("proprietaire", proprietaire);
-            balise.setProperty("idInformation", "idInformation");
-            balise.setProperty("idCarte", "idCarte");
-            keyLast = Util.getDatastoreServiceInstance().put(balise);
+            if(key.equals("noKey")){
+                stand = new Entity(DBConfig.ENTITY_STAND);
+            }else{
+                Key keyObj = KeyFactory.createKey(DBConfig.ENTITY_STAND, Long.parseLong(key));
+                stand = Util.findEntity(keyObj);
+            }
+
+            stand.setProperty("nom", nom);
+            stand.setProperty("posX", posX);
+            stand.setProperty("posY", posY);
+            stand.setProperty("proprietaire", proprietaire);
+            stand.setProperty("idInformation", "idInformation");
+            stand.setProperty("idCarte", "idCarte");
+            keyLast = Util.getDatastoreServiceInstance().put(stand);
 
             txn.commit();
         } catch (Exception e) {

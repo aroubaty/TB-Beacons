@@ -21,13 +21,13 @@ public class MainServlet extends HttpServlet {
     protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
         PrintWriter out = response.getWriter();
 
-        Key keyChambre = Stand.createOrUpdateOrder("Chambre", 580, 170, "Anthony", "idInfo", "idCarte");
-        Key keySalon = Stand.createOrUpdateOrder("Salon", 43, 690, "Anthony", "idInfo", "idCarte");
-        Key keyBureau = Stand.createOrUpdateOrder("Bureau", 744, 512, "Anthony", "idInfo", "idCarte");
+        Key keyChambre = Stand.createOrUpdateOrder("noKey", "Chambre", 580, 170, "Anthony", "idInfo", "idCarte");
+        Key keySalon = Stand.createOrUpdateOrder("noKey", "Salon", 43, 690, "Anthony", "idInfo", "idCarte");
+        Key keyBureau = Stand.createOrUpdateOrder("noKey", "Bureau", 744, 512, "Anthony", "idInfo", "idCarte");
 
-        Balise.createOrUpdateOrder("3G0h", keyChambre.getId() + "", 3);
-        Balise.createOrUpdateOrder("rDd9", keySalon.getId() + "", 5);
-        Balise.createOrUpdateOrder("ABCD", "free", 7);
+        Balise.createOrUpdateOrder("noKey", "3G0h", keyChambre.getId() + "", 3);
+        Balise.createOrUpdateOrder("noKey", "rDd9", keySalon.getId() + "", 5);
+        Balise.createOrUpdateOrder("noKey", "ABCD", "free", 7);
 
         out.println("Data sample Load !");
     }

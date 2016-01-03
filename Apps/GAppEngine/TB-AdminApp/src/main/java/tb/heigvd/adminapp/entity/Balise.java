@@ -16,6 +16,7 @@ public class Balise {
     private static final Logger logger = Logger.getLogger(Util.class.getCanonicalName());
 
     public static Key createOrUpdateOrder(
+            String key,
             String nom,
             String standId,
             int puissance
@@ -23,8 +24,15 @@ public class Balise {
         Key keyLast = null;
         Transaction txn = Util.getDatastoreServiceInstance().beginTransaction();
         try {
+            Entity balise;
 
-            Entity balise = new Entity(DBConfig.ENTITY_BALISE);
+            if(key.equals("noKey")){
+                balise = new Entity(DBConfig.ENTITY_BALISE);
+            }else{
+                Key keyObj = KeyFactory.createKey(DBConfig.ENTITY_BALISE, Long.parseLong(key));
+                balise = Util.findEntity(keyObj);
+            }
+
             balise.setProperty("nom", nom);
             balise.setProperty("standId", standId);
             balise.setProperty("puissance", puissance);
