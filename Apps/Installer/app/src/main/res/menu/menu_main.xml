@@ -13,4 +13,10 @@
         android:orderInCategory="100"
         android:title="Actualiser"
         app:showAsAction="never" />
+
+    <item
+        android:id="@+id/open_balise"
+        android:orderInCategory="100"
+        android:title="Gestion balise"
+        app:showAsAction="never" />
 </menu>

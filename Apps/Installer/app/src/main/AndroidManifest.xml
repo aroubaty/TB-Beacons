@@ -20,7 +20,11 @@
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
-        <activity android:name=".EditActivity"></activity>
+        <activity android:name=".EditActivity" />
+        <activity
+            android:name=".BaliseActivity"
+            android:label="@string/title_activity_balise"
+            android:theme="@style/AppTheme.NoActionBar"></activity>
     </application>
 
 </manifest>

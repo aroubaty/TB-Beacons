@@ -72,6 +72,9 @@ public class MainActivity extends AppCompatActivity {
         if (id == R.id.refresh_stands) {
             new GetAllStand().execute(AppConfig.URL_GET_ALL_STAND, "GET");
             return true;
+        }else if(id == R.id.open_balise){
+            Intent intent = new Intent(MainActivity.this, BaliseActivity.class);
+            startActivity(intent);
         }
 
         return super.onOptionsItemSelected(item);
