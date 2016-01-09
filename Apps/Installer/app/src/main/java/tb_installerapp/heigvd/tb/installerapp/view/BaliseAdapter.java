@@ -1,6 +1,7 @@
 package tb_installerapp.heigvd.tb.installerapp.view;
 
 import android.app.Activity;
+import android.app.DialogFragment;
 import android.content.Intent;
 import android.graphics.Color;
 import android.support.design.widget.CoordinatorLayout;
@@ -19,6 +20,7 @@ import tb_installerapp.heigvd.tb.installerapp.R;
 import tb_installerapp.heigvd.tb.installerapp.model.Balise;
 import tb_installerapp.heigvd.tb.installerapp.model.EntityManager;
 import tb_installerapp.heigvd.tb.installerapp.utils.CustomHttpRequest;
+import tb_installerapp.heigvd.tb.installerapp.utils.GetAllBalise;
 import tb_installerapp.heigvd.tb.installerapp.utils.GetAllStand;
 
 /**
@@ -66,14 +68,32 @@ public class BaliseAdapter extends MyAdapter{
         viewHolder.imageEditBalise.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                //todo update
+                DialogFragment df = DialogBalise.newInstance(balise.baliseKey, balise.nom, balise.puissance+"");
+                df.show(mainActivity.getFragmentManager(), "df");
             }
         });
 
         viewHolder.imageDeleteBalise.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                //todo delete
+                new CustomHttpRequest(){
+                    @Override
+                    protected void onPostExecute(String result) {
+                        super.onPostExecute(result);
+
+                        Log.w("HTTPResult", result);
+
+                        Snackbar snackbar = Snackbar
+                                .make((CoordinatorLayout)mainActivity.findViewById(R.id.baliseRootLayout),
+                                        "Suppression terminée",
+                                        Snackbar.LENGTH_LONG);
+
+                        snackbar.show();
+
+                        //actualise la liste
+                        new GetAllBalise().execute(AppConfig.URL_GET_ALL_BALISE, "GET");
+                    }
+                }.execute(AppConfig.URL_GET_ALL_BALISE + "/" + balise.baliseKey, "DELETE");
             }
         });
 
