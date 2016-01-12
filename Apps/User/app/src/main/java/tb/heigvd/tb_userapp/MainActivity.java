@@ -20,6 +20,7 @@ import com.kontakt.sdk.android.common.KontaktSDK;
 import com.kontakt.sdk.android.common.log.LogLevel;
 
 import tb.heigvd.tb_userapp.bluetooth.BluetoothManager;
+import tb.heigvd.tb_userapp.entity.EntityManager;
 import tb.heigvd.tb_userapp.entity.Stand;
 import tb.heigvd.tb_userapp.map.HackyDrawerLayout;
 import tb.heigvd.tb_userapp.map.Map;
@@ -52,20 +53,21 @@ public class MainActivity extends AppCompatActivity
         drawer.setDrawerListener(toggle);
         toggle.syncState();
 
-        NavigationView navigationView = (NavigationView) findViewById(R.id.nav_view);
-        navigationView.setNavigationItemSelectedListener(this);
-
         //Map creating
         map = new Map((ImageView) findViewById(R.id.imageMap), this);
 
-        //menu
-        Menu menu = navigationView.getMenu();
-
-        for(Stand s : map.entityManager.getStands())
-            menu.add(s.name);
-
-        //partie Bluetooth
+        //Bluetooth
         bluetoothManager = new BluetoothManager(this);
+    }
+
+    public void updateMenu(Stand[] stands){
+        NavigationView navigationView = (NavigationView) findViewById(R.id.nav_view);
+        navigationView.setNavigationItemSelectedListener(this);
+        Menu menu = navigationView.getMenu();
+        menu.clear();
+
+        for(Stand s : stands)
+            menu.add(s.name);
     }
 
     @Override
@@ -94,7 +96,7 @@ public class MainActivity extends AppCompatActivity
 
         //noinspection SimplifiableIfStatement
         if (id == R.id.action_settings) {
-            return true;
+            EntityManager.getInstance().updateData();
         }
 
         return super.onOptionsItemSelected(item);

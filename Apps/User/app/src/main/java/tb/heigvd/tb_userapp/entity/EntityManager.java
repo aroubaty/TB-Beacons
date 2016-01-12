@@ -2,40 +2,70 @@ package tb.heigvd.tb_userapp.entity;
 
 import android.util.Log;
 
+import org.json.JSONArray;
+import org.json.JSONException;
+import org.json.JSONObject;
+
+import java.util.ArrayList;
 import java.util.LinkedList;
+import java.util.List;
 
 import tb.heigvd.tb_userapp.AppConfig;
+import tb.heigvd.tb_userapp.MainActivity;
+import tb.heigvd.tb_userapp.map.Map;
+import tb.heigvd.tb_userapp.network.CustomHttpRequest;
 
 /**
  * Created by anthony on 03.12.2015.
  */
 public class EntityManager {
+    private static EntityManager instance;
+    public static EntityManager createInstance(Map map, MainActivity activity, int width, int height, float ratio){
+        instance = new EntityManager(map, activity, width, height, ratio);
+        return instance;
+    }
+
+    public static EntityManager getInstance(){
+        return instance;
+    }
+
     private LinkedList<Stand> stands;
     private LinkedList<Beacon> beacons;
     private int mapWidth;
     private int mapHeight;
     private float ratio;
+    private Map map;
+    private MainActivity activity;
 
-    public EntityManager(int width, int height, float ratio){
+    private EntityManager(Map map, MainActivity activity, int width, int height, float ratio){
         mapHeight = height;
         mapWidth = width;
         this.ratio = ratio;
+        this.map = map;
+        this.activity = activity;
 
         stands = new LinkedList<>();
         beacons = new LinkedList<>();
 
-        loadTestData();
-        calculateHitbox();
+        updateData();
     }
 
     public Stand[] getStands(){
         return stands.toArray(new Stand[stands.size()]);
     }
 
-    public Beacon getBeacon(String idBeacon){
+    public Stand getStand(String idBeacon){
         for(Beacon b : beacons){
-            if(b.id.equals(idBeacon))
-                return b;
+            if(b.id.equals(idBeacon)){
+                String standKey = b.stand;
+
+                for(Stand s : stands){
+                    if(s.standKey.equals(standKey))
+                        return s;
+                }
+
+            }
+
         }
 
         return null;
@@ -55,20 +85,79 @@ public class EntityManager {
         return "null";
     }
 
-    private void loadTestData(){
-        Stand s1 = new Stand("Chambre", (int)(580 * ratio),(int)(170* ratio));
-        Stand s2 = new Stand("Salon", (int)(43 * ratio), (int)(690 * ratio));
-        Stand s3 = new Stand("Bureau", (int)(744 * ratio), (int)(512 * ratio));
-        stands.add(s1);
-        stands.add(s2);
-        stands.add(s3);
+    public void updateData(){
+        //update Stand
+        new CustomHttpRequest(){
+            @Override
+            protected void onPostExecute(String result) {
+                super.onPostExecute(result);
 
-        Beacon b1 = new Beacon("rDd9", s1);
-        Beacon b2 = new Beacon("bJxP", s2);
-        Beacon b3 = new Beacon("3G0h", s3);
-        beacons.add(b1);
-        beacons.add(b2);
-        beacons.add(b3);
+                List<Stand> outputList = new ArrayList<>();
+                try {
+                    JSONObject jObject = new JSONObject(result);
+
+                    JSONArray jArray = jObject.getJSONArray("data");
+                    for (int i = 0; i < jArray.length(); i++){
+                        JSONObject row = jArray.getJSONObject(i);
+
+                        String standKey = row.getString("id");
+                        String StandName = row.getString("nom");
+                        String proprietaire = row.getString("proprietaire");
+                        int posX = row.getInt("posX");
+                        int posY = row.getInt("posY");
+
+                        Stand newStand = new Stand(StandName, standKey, proprietaire, (int)(posX * ratio), (int)(posY * ratio));
+                        outputList.add(newStand);
+                    }
+
+
+
+                } catch (JSONException e) {
+                    e.printStackTrace();
+                }
+
+                stands.clear();
+                stands.addAll(outputList);
+                calculateHitbox();
+                map.update();
+                activity.updateMenu(stands.toArray(new Stand[stands.size()]));
+            }
+
+        }.execute(AppConfig.URL_GET_ALL_STAND, "GET");
+
+        //update Balise
+        new CustomHttpRequest(){
+            @Override
+            protected void onPostExecute(String result) {
+                super.onPostExecute(result);
+
+                List<Beacon> outputList = new ArrayList<>();
+                try {
+                    JSONObject jObject = new JSONObject(result);
+
+                    JSONArray jArray = jObject.getJSONArray("data");
+                    for (int i = 0; i < jArray.length(); i++){
+                        JSONObject row = jArray.getJSONObject(i);
+
+                        String baliseKey = row.getString("id");
+                        String baliseName = row.getString("nom");
+                        String standId = row.getString("standId");
+                        int puissance = row.getInt("puissance");
+
+                        Beacon newBalise = new Beacon(baliseName, standId, baliseKey);
+                        outputList.add(newBalise);
+                    }
+
+                } catch (JSONException e) {
+                    e.printStackTrace();
+                }
+
+                beacons.clear();
+                beacons.addAll(outputList);
+            }
+
+        }.execute(AppConfig.URL_GET_ALL_BALISE, "GET");
+
     }
 
     private void calculateHitbox(){

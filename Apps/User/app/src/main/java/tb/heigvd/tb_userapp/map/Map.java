@@ -9,12 +9,12 @@ import android.graphics.Matrix;
 import android.graphics.Paint;
 import android.graphics.drawable.BitmapDrawable;
 import android.graphics.drawable.Drawable;
-import android.util.Log;
 import android.view.View;
 import android.widget.ImageView;
 import android.widget.Toast;
 
 import tb.heigvd.tb_userapp.AppConfig;
+import tb.heigvd.tb_userapp.MainActivity;
 import tb.heigvd.tb_userapp.entity.Stand;
 import tb.heigvd.tb_userapp.entity.EntityManager;
 import uk.co.senab.photoview.PhotoViewAttacher;
@@ -27,7 +27,7 @@ public class Map {
     private PhotoViewAttacher mAttacher;
     private Resources resources;
     private Bitmap mapNonMutable;
-    private Activity mainActivity;
+    private MainActivity mainActivity;
     private String destination;
     private String[] beaconProximity;
 
@@ -37,7 +37,7 @@ public class Map {
     //Manager
     public EntityManager entityManager;
 
-    public Map(ImageView mapImage, Activity activity){
+    public Map(ImageView mapImage, MainActivity activity){
         mImageView = mapImage;
         this.resources = activity.getResources();
         mainActivity = activity;
@@ -56,7 +56,7 @@ public class Map {
         int realWidth = options.outWidth;
         //int realHeight = options.outHeight;
 
-        entityManager = new EntityManager(mapNonMutable.getWidth(), mapNonMutable.getHeight(), (float)mapNonMutable.getWidth() / (float)realWidth);
+        entityManager = EntityManager.createInstance(this, mainActivity, mapNonMutable.getWidth(), mapNonMutable.getHeight(), (float)mapNonMutable.getWidth() / (float)realWidth);
         update();
     }
 
@@ -68,7 +68,7 @@ public class Map {
 
         //on dessine la position
         for(String idBeacon : beaconProximity){
-            Stand toDraw = entityManager.getBeacon(idBeacon).stand;
+            Stand toDraw = entityManager.getStand(idBeacon);
             p.setColor(AppConfig.COLOR_POSITION);
             c.drawCircle(toDraw.posX, toDraw.posY, AppConfig.CIRCLE_POSITION_RADIUS, p);
         }

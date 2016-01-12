@@ -5,8 +5,10 @@ package tb.heigvd.tb_userapp.entity;
  */
 public class Stand {
     public String name;
-    public Integer posX;
-    public Integer posY;
+    public String standKey;
+    public String proprietaire;
+    public int posX;
+    public int posY;
 
     //hitbox pour la carte
     float hitboxXMin;
@@ -14,8 +16,10 @@ public class Stand {
     float hitboxYMin;
     float hitboxYMax;
 
-    public Stand(String name, Integer posX, Integer posY) {
+    public Stand(String name, String standKey, String proprietaire, int posX, int posY) {
         this.name = name;
+        this.standKey = standKey;
+        this.proprietaire = proprietaire;
         this.posX = posX;
         this.posY = posY;
     }

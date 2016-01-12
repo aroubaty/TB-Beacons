@@ -5,10 +5,13 @@ package tb.heigvd.tb_userapp.entity;
  */
 public class Beacon {
     public String id;
-    public Stand stand;
+    public String stand;
+    String baliseKey;
 
-    public Beacon(String id, Stand stand) {
+    public Beacon(String id, String stand, String baliseKey) {
         this.id = id;
         this.stand = stand;
+        this.baliseKey = baliseKey;
     }
+
 }

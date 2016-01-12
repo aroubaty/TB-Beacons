@@ -13,7 +13,12 @@ public class AppConfig {
     public static final int COLOR_DESTINATION = Color.RED;
     public static final int COLOR_POSITION = Color.GREEN;
 
-
     //Carte
     public static final int MAP = R.drawable.plan_maison;
+
+    //Serveur
+    public static final String URL_ROOT = "http://heigvd-tb-beacons.appspot.com/api";
+
+    public static final String URL_GET_ALL_STAND = URL_ROOT + "/stand";
+    public static final String URL_GET_ALL_BALISE = URL_ROOT + "/balise";
 }
