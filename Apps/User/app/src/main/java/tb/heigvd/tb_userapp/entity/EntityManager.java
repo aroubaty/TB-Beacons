@@ -71,18 +71,18 @@ public class EntityManager {
         return null;
     }
 
-    public String touch(float x, float y){
+    public Stand touch(float x, float y){
         float percentageX = x * 100;
         float percentageY = y * 100;
 
         for(Stand s : stands){
             if(percentageX >= s.hitboxXMin && percentageX <= s.hitboxXMax){
                 if(percentageY >= s.hitboxYMin && percentageY <= s.hitboxYMax)
-                    return s.name;
+                    return s;
             }
         }
 
-        return "null";
+        return null;
     }
 
     public void updateData(){
@@ -103,10 +103,11 @@ public class EntityManager {
                         String standKey = row.getString("id");
                         String StandName = row.getString("nom");
                         String proprietaire = row.getString("proprietaire");
+                        String infoKey = row.getString("idInformation");
                         int posX = row.getInt("posX");
                         int posY = row.getInt("posY");
 
-                        Stand newStand = new Stand(StandName, standKey, proprietaire, (int)(posX * ratio), (int)(posY * ratio));
+                        Stand newStand = new Stand(StandName, standKey, proprietaire, (int)(posX * ratio), (int)(posY * ratio), infoKey);
                         outputList.add(newStand);
                     }
 

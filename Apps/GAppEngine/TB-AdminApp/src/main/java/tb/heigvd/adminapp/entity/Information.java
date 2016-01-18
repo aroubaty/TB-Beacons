@@ -10,19 +10,16 @@ import java.util.logging.Level;
 import java.util.logging.Logger;
 
 /**
- * Created by anthony on 18.12.2015.
+ * Created by anthony on 18.01.2016.
  */
-public class Stand {
+public class Information {
     private static final Logger logger = Logger.getLogger(Util.class.getCanonicalName());
 
     public static Key createOrUpdateOrder(
             String key,
-            String nom,
-            int posX,
-            int posY,
-            String proprietaire,
-            String idInformation,
-            String idCarte
+            String title,
+            String imgUrl,
+            String description
     ) throws IOException {
         Key keyLast = null;
         Transaction txn = Util.getDatastoreServiceInstance().beginTransaction();
@@ -30,18 +27,15 @@ public class Stand {
             Entity stand;
 
             if(key.equals("noKey")){
-                stand = new Entity(DBConfig.ENTITY_STAND);
+                stand = new Entity(DBConfig.ENTITY_INFORMATION);
             }else{
-                Key keyObj = KeyFactory.createKey(DBConfig.ENTITY_STAND, Long.parseLong(key));
+                Key keyObj = KeyFactory.createKey(DBConfig.ENTITY_INFORMATION, Long.parseLong(key));
                 stand = Util.findEntity(keyObj);
             }
 
-            stand.setProperty("nom", nom);
-            stand.setProperty("posX", posX);
-            stand.setProperty("posY", posY);
-            stand.setProperty("proprietaire", proprietaire);
-            stand.setProperty("idInformation", idInformation);
-            stand.setProperty("idCarte", "idCarte");
+            stand.setProperty("title", title);
+            stand.setProperty("imgUrl", imgUrl);
+            stand.setProperty("description", description);
             keyLast = Util.getDatastoreServiceInstance().put(stand);
 
             txn.commit();
@@ -55,8 +49,8 @@ public class Stand {
         return keyLast;
     }
 
-    public static Iterable<Entity> getAllStands() {
-        Iterable<Entity> entities = Util.listEntities(DBConfig.ENTITY_STAND, null, null);
-        return entities;
+    public static Entity getInfo(String key){
+        Key keyObj = KeyFactory.createKey(DBConfig.ENTITY_INFORMATION, Long.parseLong(key));
+        return Util.findEntity(keyObj);
     }
 }

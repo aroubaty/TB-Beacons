@@ -1,6 +1,7 @@
 package tb.heigvd.tb_userapp.map;
 
 import android.app.Activity;
+import android.content.Intent;
 import android.content.res.Resources;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
@@ -14,6 +15,7 @@ import android.widget.ImageView;
 import android.widget.Toast;
 
 import tb.heigvd.tb_userapp.AppConfig;
+import tb.heigvd.tb_userapp.InfoActivity;
 import tb.heigvd.tb_userapp.MainActivity;
 import tb.heigvd.tb_userapp.entity.Stand;
 import tb.heigvd.tb_userapp.entity.EntityManager;
@@ -114,10 +116,12 @@ public class Map {
     private class MapTapListener implements PhotoViewAttacher.OnPhotoTapListener {
         @Override
         public void onPhotoTap(View view, float x, float y) {
-            String nameTouch = entityManager.touch(x, y);
+            Stand standTouch = entityManager.touch(x, y);
 
-            if(!nameTouch.equals("null"))
-                Toast.makeText(mainActivity.getApplicationContext(), "Touch : " + nameTouch, Toast.LENGTH_SHORT).show();
+            if(standTouch !=  null)
+                //Toast.makeText(mainActivity.getApplicationContext(), "Touch : " + standTouch.name, Toast.LENGTH_SHORT).show();
+                mainActivity.loadInfo(standTouch.infoKey);
+
         }
     }
 }

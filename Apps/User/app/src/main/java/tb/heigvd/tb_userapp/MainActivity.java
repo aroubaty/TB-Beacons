@@ -70,6 +70,12 @@ public class MainActivity extends AppCompatActivity
             menu.add(s.name);
     }
 
+    public void loadInfo(String infoKey){
+        Intent intent = new Intent(MainActivity.this, InfoActivity.class);
+        intent.putExtra("infoKey", infoKey);
+        startActivity(intent);
+    }
+
     @Override
     public void onBackPressed() {
         DrawerLayout drawer = (DrawerLayout) findViewById(R.id.drawer_layout);

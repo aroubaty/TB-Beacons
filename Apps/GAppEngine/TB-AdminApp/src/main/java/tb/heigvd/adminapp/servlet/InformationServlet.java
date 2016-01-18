@@ -7,8 +7,8 @@ import com.google.appengine.repackaged.com.google.gson.JsonElement;
 import com.google.appengine.repackaged.com.google.gson.JsonObject;
 import com.google.appengine.repackaged.com.google.gson.JsonParser;
 import tb.heigvd.adminapp.MainServlet;
-import tb.heigvd.adminapp.entity.Balise;
 import tb.heigvd.adminapp.entity.DBConfig;
+import tb.heigvd.adminapp.entity.Information;
 import tb.heigvd.adminapp.entity.Stand;
 import tb.heigvd.adminapp.entity.Util;
 
@@ -19,17 +19,16 @@ import javax.servlet.http.HttpServletResponse;
 import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.PrintWriter;
-import java.util.logging.Logger;
+import java.util.ArrayList;
 
 /**
- * Created by anthony on 24.12.2015.
+ * Created by anthony on 18.01.2016.
  */
-public class StandServlet extends MainServlet {
-    private static final Logger logger = Logger.getLogger(BaliseServlet.class.getCanonicalName());
+public class InformationServlet extends MainServlet {
 
     /*
-        /stand : crée un stand par rapport au JSON
-     */
+        /info : crée une info par rapport au JSON
+    */
     protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
         PrintWriter out = response.getWriter();
 
@@ -48,49 +47,31 @@ public class StandServlet extends MainServlet {
         JsonObject jobject = jelement.getAsJsonObject();
 
         String keyJson = jobject.get("key").toString().replace("\"", "");
-        String nom = jobject.get("nom").toString().replace("\"", "");
-        int posX = Integer.parseInt(jobject.get("posX").toString().replace("\"", ""));
-        int posY = Integer.parseInt(jobject.get("posY").toString().replace("\"", ""));
-        String proprietaire = jobject.get("proprietaire").toString().replace("\"", "");
-        String idInformation = jobject.get("idInformation").toString().replace("\"", "");
-        String idCarte = jobject.get("idCarte").toString().replace("\"", "");
+        String title = jobject.get("title").toString().replace("\"", "");
+        String imgUrl = jobject.get("imgUrl").toString().replace("\"", "");
+        String description = jobject.get("description").toString().replace("\"", "");
 
-        String key = Stand.createOrUpdateOrder(keyJson, nom, posX, posY, proprietaire, idInformation, idCarte).getId() + "";
+        String key = Information.createOrUpdateOrder(keyJson, title, imgUrl, description).getId() + "";
         out.println(key);
     }
 
     /*
-        /stand : retourne tout les stands
+        /info/{infoID} : retourne l'info en fonction de la clé
      */
     protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
         super.doGet(request, response);
-        PrintWriter out = response.getWriter();
-
-        Iterable<Entity> baliseEntities = Stand.getAllStands();
-        out.println(Util.writeJSON(baliseEntities));
-    }
-
-    /*
-        /stand/{idStand} : supprime le stand avec l'ID
-     */
-    protected void doDelete(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException{
         PrintWriter out = response.getWriter();
         String pathInfo = request.getPathInfo();
 
         if(!pathInfo.equals("/")){
             String[] pathParts = pathInfo.split("/");
-            Key key = KeyFactory.createKey(DBConfig.ENTITY_STAND, Long.parseLong(pathParts[1]));
+            Entity info = Information.getInfo(pathParts[1]);
 
-            //libère les balises liés
-            Iterable<Entity> allBalise = Util.listEntities(DBConfig.ENTITY_BALISE, "standId", pathParts[1]);
-            for(Entity e : allBalise){
-                e.setProperty("standId", "free");
-                Util.persistEntity(e);
-            }
+            ArrayList<Entity> iterable = new ArrayList<>();
+            iterable.add(info);
 
-            Util.deleteEntity(key);
-
-            out.println("delete done !");
+            out.println(Util.writeJSON(iterable));
+            return ;
         }
 
 

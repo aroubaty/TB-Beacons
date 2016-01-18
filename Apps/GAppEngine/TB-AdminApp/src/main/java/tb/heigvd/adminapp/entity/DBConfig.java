@@ -8,5 +8,6 @@ public class DBConfig {
     //Nom des entités
     public static final String ENTITY_BALISE = "balise";
     public static final String ENTITY_STAND = "stand";
+    public static final String ENTITY_INFORMATION = "information";
 
 }

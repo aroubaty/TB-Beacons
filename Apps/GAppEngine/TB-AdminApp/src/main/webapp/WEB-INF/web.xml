@@ -13,6 +13,10 @@
         <servlet-name>StandServlet</servlet-name>
         <servlet-class>tb.heigvd.adminapp.servlet.StandServlet</servlet-class>
     </servlet>
+    <servlet>
+        <servlet-name>InformationServlet</servlet-name>
+        <servlet-class>tb.heigvd.adminapp.servlet.InformationServlet</servlet-class>
+    </servlet>
 
     <servlet-mapping>
         <servlet-name>MainServlet</servlet-name>
@@ -25,6 +29,10 @@
     <servlet-mapping>
         <servlet-name>StandServlet</servlet-name>
         <url-pattern>/api/stand/*</url-pattern>
+    </servlet-mapping>
+    <servlet-mapping>
+        <servlet-name>InformationServlet</servlet-name>
+        <url-pattern>/api/info/*</url-pattern>
     </servlet-mapping>
 
     <welcome-file-list>

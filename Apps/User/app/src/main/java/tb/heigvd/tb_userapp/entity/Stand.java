@@ -9,6 +9,7 @@ public class Stand {
     public String proprietaire;
     public int posX;
     public int posY;
+    public String infoKey;
 
     //hitbox pour la carte
     float hitboxXMin;
@@ -16,11 +17,12 @@ public class Stand {
     float hitboxYMin;
     float hitboxYMax;
 
-    public Stand(String name, String standKey, String proprietaire, int posX, int posY) {
+    public Stand(String name, String standKey, String proprietaire, int posX, int posY, String infoKey) {
         this.name = name;
         this.standKey = standKey;
         this.proprietaire = proprietaire;
         this.posX = posX;
         this.posY = posY;
+        this.infoKey = infoKey;
     }
 }
