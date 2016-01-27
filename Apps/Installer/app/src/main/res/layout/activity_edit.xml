@@ -26,6 +26,7 @@
             android:layout_width="fill_parent"
             android:layout_height="wrap_content">
 
+            <!-- nom -->
             <TextView
                 android:id="@+id/label_nom"
                 android:layout_width="wrap_content"
@@ -43,6 +44,28 @@
                 android:width="200dp"
                 android:layout_alignParentEnd="true" />
 
+            <!-- info -->
+            <TextView
+                android:id="@+id/label_info"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Information"
+                android:textSize="20dp"
+                android:layout_alignParentLeft="true"
+                android:layout_below="@id/label_nom"
+                android:layout_marginTop="20dp"/>
+
+            <Spinner
+                android:id="@+id/info"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:background="@android:drawable/editbox_background"
+                android:layout_alignParentEnd="true"
+                android:layout_below="@id/nom"
+                android:layout_marginTop="10dp"
+                android:layout_alignStart="@+id/nom" />
+
+            <!-- pro -->
             <TextView
                 android:id="@+id/label_pro"
                 android:layout_width="wrap_content"
@@ -50,7 +73,7 @@
                 android:text="Propriétaire"
                 android:textSize="20dp"
                 android:layout_alignParentLeft="true"
-                android:layout_below="@id/label_nom"
+                android:layout_below="@id/label_info"
                 android:layout_marginTop="20dp"/>
 
             <EditText
@@ -59,9 +82,9 @@
                 android:layout_height="wrap_content"
                 android:background="@android:drawable/editbox_background"
                 android:layout_alignParentEnd="true"
-                android:layout_below="@id/nom"
+                android:layout_below="@id/info"
                 android:layout_marginTop="10dp"
-                android:layout_alignStart="@+id/nom" />
+                android:layout_alignStart="@+id/info" />
 
 
             <FrameLayout

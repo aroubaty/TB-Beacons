@@ -53,4 +53,9 @@ public class Information {
         Key keyObj = KeyFactory.createKey(DBConfig.ENTITY_INFORMATION, Long.parseLong(key));
         return Util.findEntity(keyObj);
     }
+
+    public static Iterable<Entity> getAllInfos() {
+        Iterable<Entity> entities = Util.listEntities(DBConfig.ENTITY_INFORMATION, null, null);
+        return entities;
+    }
 }

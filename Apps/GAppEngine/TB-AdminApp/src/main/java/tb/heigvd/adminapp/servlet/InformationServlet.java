@@ -7,10 +7,7 @@ import com.google.appengine.repackaged.com.google.gson.JsonElement;
 import com.google.appengine.repackaged.com.google.gson.JsonObject;
 import com.google.appengine.repackaged.com.google.gson.JsonParser;
 import tb.heigvd.adminapp.MainServlet;
-import tb.heigvd.adminapp.entity.DBConfig;
-import tb.heigvd.adminapp.entity.Information;
-import tb.heigvd.adminapp.entity.Stand;
-import tb.heigvd.adminapp.entity.Util;
+import tb.heigvd.adminapp.entity.*;
 
 import javax.servlet.ServletException;
 import javax.servlet.http.HttpServlet;
@@ -56,6 +53,7 @@ public class InformationServlet extends MainServlet {
     }
 
     /*
+        /info : retourne toutes les infos
         /info/{infoID} : retourne l'info en fonction de la clé
      */
     protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
@@ -63,6 +61,12 @@ public class InformationServlet extends MainServlet {
         PrintWriter out = response.getWriter();
         String pathInfo = request.getPathInfo();
 
+        if(pathInfo == null){
+            // on est sur /info
+            Iterable<Entity> infoEntities = Information.getAllInfos();
+            out.println(Util.writeJSON(infoEntities));
+            return;
+        }
         if(!pathInfo.equals("/")){
             String[] pathParts = pathInfo.split("/");
             Entity info = Information.getInfo(pathParts[1]);
@@ -72,9 +76,12 @@ public class InformationServlet extends MainServlet {
 
             out.println(Util.writeJSON(iterable));
             return ;
+        }else {
+            // on est sur /info/
+            Iterable<Entity> infoEntities = Information.getAllInfos();
+            out.println(Util.writeJSON(infoEntities));
+            return;
         }
 
-
-        response.sendError(HttpServletResponse.SC_BAD_REQUEST);
     }
 }

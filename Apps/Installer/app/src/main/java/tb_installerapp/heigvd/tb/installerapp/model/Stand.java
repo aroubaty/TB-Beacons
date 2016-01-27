@@ -12,13 +12,15 @@ public class Stand implements Parcelable{
     public String proprietaire;
     public int posX;
     public int posY;
+    public String infoKey;
 
-    public Stand(String standKey, String standName, String proprietaire, int posX, int posY) {
+    public Stand(String standKey, String standName, String proprietaire, int posX, int posY, String infoKey) {
         this.standKey = standKey;
         StandName = standName;
         this.proprietaire = proprietaire;
         this.posX = posX;
         this.posY = posY;
+        this.infoKey =infoKey;
     }
 
     public Stand(Parcel in) {
@@ -27,6 +29,7 @@ public class Stand implements Parcelable{
         proprietaire = in.readString();
         posX = in.readInt();
         posY = in.readInt();
+        infoKey = in.readString();
     }
 
     @Override
@@ -41,6 +44,7 @@ public class Stand implements Parcelable{
         dest.writeString(proprietaire);
         dest.writeInt(posX);
         dest.writeInt(posY);
+        dest.writeString(infoKey);
     }
 
     public static final Creator<Stand> CREATOR = new Creator<Stand>() {

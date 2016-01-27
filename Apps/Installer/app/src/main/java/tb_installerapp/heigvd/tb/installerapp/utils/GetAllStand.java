@@ -37,8 +37,9 @@ public class GetAllStand extends CustomHttpRequest {
                 String proprietaire = row.getString("proprietaire");
                 int posX = row.getInt("posX");
                 int posY = row.getInt("posY");
+                String infoKey  = row.getString("idInformation");
 
-                Stand newStand = new Stand(standKey, StandName, proprietaire, posX, posY);
+                Stand newStand = new Stand(standKey, StandName, proprietaire, posX, posY, infoKey);
                 outputList.add(newStand);
             }
 
