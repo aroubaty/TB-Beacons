@@ -71,8 +71,10 @@ public class Map {
         //on dessine la position
         for(String idBeacon : beaconProximity){
             Stand toDraw = entityManager.getStand(idBeacon);
-            p.setColor(AppConfig.COLOR_POSITION);
-            c.drawCircle(toDraw.posX, toDraw.posY, AppConfig.CIRCLE_POSITION_RADIUS, p);
+            if(toDraw != null) {
+                p.setColor(AppConfig.COLOR_POSITION);
+                c.drawCircle(toDraw.posX, toDraw.posY, AppConfig.CIRCLE_POSITION_RADIUS, p);
+            }
         }
 
         //on dessine les différents éléments (stand, etc..)
