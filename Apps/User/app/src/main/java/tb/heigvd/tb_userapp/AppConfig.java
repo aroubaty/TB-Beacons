@@ -14,7 +14,7 @@ public class AppConfig {
     public static final int COLOR_POSITION = Color.GREEN;
 
     //Carte
-    public static final int MAP = R.drawable.plan_maison;
+    public static final int MAP = R.drawable.ecole_map;
 
     //Serveur
     public static final String URL_ROOT = "http://heigvd-tb-beacons.appspot.com/api";

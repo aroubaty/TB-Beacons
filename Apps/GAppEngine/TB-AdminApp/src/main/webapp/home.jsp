@@ -47,7 +47,7 @@
         <div id="navbar" class="navbar-collapse collapse">
             <ul class="nav navbar-nav">
                 <li class="active"><a href="#">Home</a></li>
-                <li><a href="#about">Options</a></li>
+                <!--<li><a href="#about">Options</a></li>-->
             </ul>
             <ul class="nav navbar-nav navbar-right">
                 <!--<li><a href="../navbar/">Default</a></li>
@@ -87,10 +87,10 @@
         </table>
     </div>
 
-    <div class="col-xs-6">
+    <!--<div class="col-xs-6">
         <h3>Flux de personnes</h3>
         <p></p>
-    </div>
+    </div>-->
 </div>
 
 <!-- script part -->

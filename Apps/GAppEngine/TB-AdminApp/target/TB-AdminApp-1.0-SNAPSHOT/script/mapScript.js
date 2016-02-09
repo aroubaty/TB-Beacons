@@ -7,7 +7,7 @@ var vectorLayer;
 function mapInit(jsonStand) {
     var mapExtent = [0.000000, -924.000000, 876.000000, 0.000000];
     var mapMinZoom = 0;
-    var mapMaxZoom = 2;
+    var mapMaxZoom = 3;
     var mapMaxResolution = 1.000000;
     var tileExtent = [0.000000, -924.000000, 876.000000, 0.000000];
 
@@ -88,15 +88,6 @@ function updateMarker(jsonStand){
         vectorSource.addFeature(iconFeature);
     }
 
-    var iconStyle = new ol.style.Style({
-        image: new ol.style.Icon(/** @type {olx.style.IconOptions} */ ({
-            anchor: [17, 25],
-            anchorXUnits: 'pixels',
-            anchorYUnits: 'pixels',
-            opacity: 0.75,
-            src: '/img/map-marker-iconRedim.png'
-        }))
-    });
-
     vectorLayer.setSource(vectorSource);
 }
+
