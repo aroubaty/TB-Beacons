@@ -28,11 +28,6 @@ public class CustomHttpRequest extends AsyncTask<String, String, String> {
 
     @Override
     protected String doInBackground(String... uri) {
-        /*if(uri.length != 2) {
-            Log.e("CustomHTTPRequest", "Wrong number of parameter");
-            return "fail";
-        }*/
-
         String output = "";
         try{
             URL url = new URL(uri[0]);

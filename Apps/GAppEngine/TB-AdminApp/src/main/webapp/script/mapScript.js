@@ -4,6 +4,7 @@
 var map;
 var vectorLayer;
 
+//Initialise la map avec le json en paramètre
 function mapInit(jsonStand) {
     var mapExtent = [0.000000, -924.000000, 876.000000, 0.000000];
     var mapMinZoom = 0;
@@ -74,6 +75,7 @@ function mapInit(jsonStand) {
     map.getView().fit(mapExtent, map.getSize());
 }
 
+//met à jour les markeurs grace au json
 function updateMarker(jsonStand){
     var vectorSource = new ol.source.Vector();
 

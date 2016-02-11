@@ -1,6 +1,7 @@
 /**
  * Created by Anthony on 21.01.2016.
  */
+//transforme les données du formulaire en json
 $.fn.serializeObject = function () {
     var o = {};
     var a = this.serializeArray();
@@ -17,12 +18,8 @@ $.fn.serializeObject = function () {
     return o;
 };
 
+//gestion de l'envoi du formulaire via jquery
 $('#infoForm').submit(function (event) {
-    /*var form = $("#infoForm").serializeArray();;
-     var json = JSON.stringify(form);
-     alert(json);*/
-    //alert(JSON.stringify(form.serializeArray()));
-
     var form = $("#infoForm");
     var json = JSON.stringify(form.serializeObject());
 

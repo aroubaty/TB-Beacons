@@ -23,7 +23,5 @@ import tb_installerapp.heigvd.tb.installerapp.model.EntityManager;
  */
 public abstract class MyAdapter extends BaseAdapter {
 
-    public void replaceWith(List<?> nlleList) {
-
-    }
+    public void replaceWith(List<?> nlleList){}
 }

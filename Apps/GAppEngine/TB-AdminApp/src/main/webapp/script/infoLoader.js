@@ -1,6 +1,7 @@
 /**
  * Created by Anthony on 21.01.2016.
  */
+//http async request
 function httpGetAsync(theUrl, callback) {
     var xmlHttp = new XMLHttpRequest();
     xmlHttp.onreadystatechange = function() {
@@ -11,6 +12,7 @@ function httpGetAsync(theUrl, callback) {
     xmlHttp.send(null);
 }
 
+//met à jour le formulaire grace au json
 function updateForm(jsonInfo){
     var titre = document.getElementById("titre");
     var description = document.getElementById("description");
@@ -29,6 +31,7 @@ function updateForm(jsonInfo){
 
 }
 
+//charge les informations
 function parseUrl(){
     var url = window.location.href;
     var urlSplit = url.split("/");

@@ -242,10 +242,6 @@ public class EditActivity extends AppCompatActivity implements AdapterView.OnIte
 
                     snackbar.show();
 
-                    //actualise le spinner
-                    /*new GetAllFreeBaliseSpinner(spinnerAdapter, posIdMap)
-                            .execute(AppConfig.URL_GET_ALL_BALISE + "/free", "GET");*/
-
                     //actualise la liste
                     new GetAllBalise().execute(AppConfig.URL_GET_ALL_BALISE + "/byStand/" + stand.standKey, "GET");
                 }

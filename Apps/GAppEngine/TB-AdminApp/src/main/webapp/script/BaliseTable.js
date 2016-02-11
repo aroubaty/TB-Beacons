@@ -4,6 +4,7 @@
 
 var oldTbody;
 
+//met à jour le tableau des balises
 function updateBaliseTable(jsonBalise){
     oldTbody = document.getElementById("baliseTable").getElementsByTagName('tbody')[0];
     var newTbody = document.createElement('tbody');

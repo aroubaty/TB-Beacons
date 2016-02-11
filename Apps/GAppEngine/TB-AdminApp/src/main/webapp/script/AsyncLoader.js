@@ -11,6 +11,7 @@ function httpGetAsync(theUrl, callback) {
     xmlHttp.send(null);
 }
 
+//lancer les threads qui mette à jour la page en temps réel
 function initPage(){
     //map
     httpGetAsync("/api/stand", mapInit);

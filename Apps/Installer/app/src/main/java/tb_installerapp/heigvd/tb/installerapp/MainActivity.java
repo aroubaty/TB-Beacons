@@ -63,12 +63,6 @@ public class MainActivity extends AppCompatActivity {
         // as you specify a parent activity in AndroidManifest.xml.
         int id = item.getItemId();
 
-        //noinspection SimplifiableIfStatement
-        /*if (id == R.id.action_settings) {
-
-            return true;
-        }*/
-
         if (id == R.id.refresh_stands) {
             new GetAllStand().execute(AppConfig.URL_GET_ALL_STAND, "GET");
             return true;

@@ -12,10 +12,6 @@ public class AppConfig {
     public static final String URL_GET_ALL_BALISE = URL_ROOT + "/balise";
     public static final String URL_GET_ALL_INFO = URL_ROOT + "/info";
 
-
-
     //Carte
     public static final int MAP = R.drawable.plan_maison;
-
-
 }

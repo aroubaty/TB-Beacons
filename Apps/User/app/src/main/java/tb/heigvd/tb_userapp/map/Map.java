@@ -121,7 +121,6 @@ public class Map {
             Stand standTouch = entityManager.touch(x, y);
 
             if(standTouch !=  null)
-                //Toast.makeText(mainActivity.getApplicationContext(), "Touch : " + standTouch.name, Toast.LENGTH_SHORT).show();
                 mainActivity.loadInfo(standTouch.infoKey);
 
         }

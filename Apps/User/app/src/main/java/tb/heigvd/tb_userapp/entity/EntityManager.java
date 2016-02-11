@@ -170,8 +170,6 @@ public class EntityManager {
             s.hitboxXMax = (float)((s.posX + AppConfig.CIRCLE_STAND_RADIUS) * onePercentWidth);
             s.hitboxYMin = (float)((s.posY - AppConfig.CIRCLE_STAND_RADIUS) * onePercentHeight);
             s.hitboxYMax = (float)((s.posY + AppConfig.CIRCLE_STAND_RADIUS) * onePercentHeight);
-
-            //Log.e("hitbox", s.name + " => x " + s.hitboxXMin + " - " + s.hitboxXMax);
         }
     }
 }
