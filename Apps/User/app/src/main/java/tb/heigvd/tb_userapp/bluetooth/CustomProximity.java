@@ -10,8 +10,8 @@ public enum CustomProximity {
     UNKNOWN;
 
     private static final double DISTANCE_THRESHOLD_UNKNOWN = 0.0;
-    private static final double DISTANCE_THRESHOLD_IMMEDIATE = 1.0;
-    private static final double DISTANCE_THRESHOLD_NEAR = 3.0;
+    private static final double DISTANCE_THRESHOLD_IMMEDIATE = 3.0;
+    private static final double DISTANCE_THRESHOLD_NEAR = 10.0;
 
     /**
      * Categorizes accuracy to Proximity.
